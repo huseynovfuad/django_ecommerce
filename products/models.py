@@ -101,10 +101,10 @@ class Product(BaseMixin):
             return product_images.first().image.url
         return "-"
 
-    # def total_price(self):
-    #     tax_price = self.tax_price if self.tax_price else 0
-    #     discount_price = self.discount_price if self.discount_price else 0
-    #     return self.price + tax_price - discount_price
+    def total_price(self):
+        tax_price = self.tax_price if self.tax_price else 0
+        discount_price = self.discount_price if self.discount_price else 0
+        return self.price + tax_price - discount_price
 
     def save(self, *args, **kwargs):
         if not self.slug:
