@@ -18,6 +18,8 @@ class ProductSerializer(serializers.ModelSerializer):
     total_price = serializers.SerializerMethodField()
     subcategory = SubcategorySerializer()
     detail = serializers.HyperlinkedIdentityField(view_name='products-api:detail', lookup_field="slug")
+    # update = serializers.HyperlinkedIdentityField(view_name='products-api:update', lookup_field="slug")
+    # delete = serializers.HyperlinkedIdentityField(view_name='products-api:delete', lookup_field="slug")
 
 
     class Meta:
@@ -28,3 +30,24 @@ class ProductSerializer(serializers.ModelSerializer):
         tax_price = obj.tax_price if obj.tax_price else 0
         discount_price = obj.discount_price if obj.discount_price else 0
         return obj.price + tax_price - discount_price
+
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ("name", "description", "brand", "subcategory",
+                  "price", "tax_price", "discount_price")
+
+    # def validate(self, attrs):
+    #     tax_price = attrs.get("tax_price", None)
+    #     if not tax_price:
+    #         raise serializers.ValidationError("Tax price None olmamalidir")
+    #     return attrs
+
+
+    def create(self, validated_data):
+        instance = Product.objects.create(
+            **validated_data
+        )
+        return instance

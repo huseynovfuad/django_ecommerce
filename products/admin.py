@@ -46,6 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
     ]
     list_display = (
         "name",
+        "slug",
         "subcategory",
         "brand",
         "price",

@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.response import Response
-from .serializers import ProductSerializer
+from .serializers import ProductSerializer, ProductCreateSerializer
 from products.models import Product
 from .filters import ProductFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -11,9 +11,8 @@ from rest_framework.pagination import LimitOffsetPagination
 from .paginations import CustomPagination
 
 
-class ProductListView(generics.ListAPIView):
+class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ProductFilter
     # pagination_class = CustomPagination
@@ -27,12 +26,78 @@ class ProductListView(generics.ListAPIView):
     #     #     queryset = queryset.filter(subcategory__category__id=int(category))
     #     return queryset
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return ProductSerializer
+        return ProductCreateSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
 
 class ProductRetrieveView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = "slug"
 
+    # def perform_update(self, serializer):
+    #     return serializer.save()
+
+
+
+
+class ProductCreateView(generics.CreateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductCreateSerializer
+
+    # def perform_create(self, serializer):
+    #     return serializer.save(user=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        new_product = serializer.save(user=request.user)
+        print(new_product.name)
+        return Response(serializer.data, status=201)
+
+
+class ProductUpdateView(generics.UpdateAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductCreateSerializer
+    lookup_field = "slug"
+
+    # def get_object(self):
+    #     slug = self.kwargs.get("slug")
+    #     obj = Product.objects.get(slug=slug)
+    #     return obj
+
+    def put(self, request, *args, **kwargs):
+        product = self.get_object()
+        serializer = self.serializer_class(data=request.data, instance=product)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+
+
+
+class ProductDeleteView(generics.DestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductCreateSerializer
+    lookup_field = "slug"
+
+
+
+class ProductRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductCreateSerializer
+    lookup_field = "slug"
+
+    # def delete(self, *args, **kwargs):
+    #     obj = self.get_object()
+    #     obj.is_deleted = True
+    #     obj.save()
+    #     return
 
 # @api_view(['GET'])
 # def product_list_view(request):

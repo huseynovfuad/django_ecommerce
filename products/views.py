@@ -88,7 +88,7 @@ def create_view(request):
             print(product_form.errors)
 
     context = {
-        "product_form": product_form,
+        "form": product_form,
     }
     return render(request, "products/create.html", context)
 
