@@ -8,7 +8,8 @@ urlpatterns = [
     path("", include("products.urls")),
 
     # api endpoints
-    path("api/products/", include("products.api.urls"))
+    path("api/products/", include("products.api.urls")),
+    path("api/accounts/", include("accounts.api.urls")),
 ]
 
 

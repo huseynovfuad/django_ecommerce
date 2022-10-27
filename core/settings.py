@@ -28,6 +28,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # django apps
     "products",
+    "accounts",
+
     # third party apps
     "rest_framework",
     "django_filters",
@@ -44,6 +46,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "core.urls"
+
+AUTH_USER_MODEL = 'accounts.MyUser'
 
 TEMPLATES = [
     {
