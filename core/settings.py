@@ -136,3 +136,20 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'products.api.paginations.CustomPagination',
     'PAGE_SIZE': 1
 }
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'fuadhuseynov0606@gmail.com'
+EMAIL_HOST_PASSWORD = 'qizdingxszsetrvv'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+
+"""
+send_mail(
+    'Subject here',
+    'Here is the message.',
+    settings.EMAIL_HOST_USER,
+    ['fhuseynov803@gmail.com'],
+    fail_silently=False,
+)
+"""

@@ -6,4 +6,5 @@ app_name = "accounts-api"
 urlpatterns = [
     path("login/", views.LoginView.as_view(), name="login"),
     path("register/", views.RegistrationView.as_view(), name="register"),
+    path("verify/<slug>/", views.VerifyView.as_view(), name="verify"),
 ]
