@@ -2,6 +2,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from .serializers import LoginSerializer, RegistrationSerializer, VerifySerializer
 from django.contrib.auth import get_user_model, login, authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 User = get_user_model()
 
@@ -20,7 +21,13 @@ class LoginView(generics.CreateAPIView):
         print(user)
         login(request, user)
 
-        return Response({"email": email}, status=201)
+        refresh = RefreshToken.for_user(user)
+        tokens = {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token)
+        }
+
+        return Response({"email": email, "tokens": tokens}, status=201)
 
 
 

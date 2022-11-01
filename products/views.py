@@ -11,6 +11,7 @@ from django.http import JsonResponse
 
 
 def index_view(request):
+    request.session["coders"] = "2022"
     context = {}
     search = request.GET.get("search", None)
     min_price = request.GET.get("min_price", None)
@@ -65,6 +66,10 @@ def index_view(request):
 
 @login_required
 def create_view(request):
+    print(request.session["coders"])
+    coders = request.session["coders"]
+    del request.session["coders"]
+
     product_form = ProductForm()
 
     if request.method == "POST":

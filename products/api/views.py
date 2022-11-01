@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import ProductSerializer, ProductCreateSerializer
@@ -49,6 +50,7 @@ class ProductRetrieveView(generics.RetrieveAPIView):
 class ProductCreateView(generics.CreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
+    permission_classes = (IsAuthenticated, )
 
     # def perform_create(self, serializer):
     #     return serializer.save(user=self.request.user)
