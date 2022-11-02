@@ -4,7 +4,9 @@ django-crispy-forms
 djangorestframework==3.13.1
 django-cleanup==6.0.0
 djangorestframework-simplejwt
+django-filter
 
+PyJWT==1.7.1
 psycopg2==2.7.5
 psycopg2-binary==2.8
 gunicorn
