@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     # third party apps
     "rest_framework",
     "django_filters",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [
